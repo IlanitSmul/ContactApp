@@ -2,8 +2,16 @@ var express = require('express'),
     app = express(),
     port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello from root route');
-});
+// ================================================
+// requring routes
+// ================================================
+
+var indexRoutes = require("./routes/index");
+
+app.use("/", indexRoutes);
+
+// ================================================
+// listen to port
+// ================================================
 
 app.listen(port, () => console.log(`APP IS RUNNING ON PORT ${port}!`))
