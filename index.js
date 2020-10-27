@@ -24,3 +24,5 @@ app.use('/contacts', contactRoutes);
 
 var port = 3000;
 app.listen(port, () => console.log(`APP IS RUNNING ON PORT ${port}!`))
+
+module.exports = app;
