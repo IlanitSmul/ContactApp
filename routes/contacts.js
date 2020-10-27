@@ -6,13 +6,7 @@ var router = express.Router();
 // database 
 // ================================================
 
-let contactsDB = [
-    {
-        name: 'example contact name',
-        phoneNumber: 'example contact phone number',
-        address: 'example contact address',
-    },
-];
+let contactsDB = [];
 
 // ================================================
 // "/contacts" ROUTES

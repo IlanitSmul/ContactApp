@@ -11,4 +11,9 @@ router.get("/whos-there", (req, res) => {
     res.send(`Hi Trax! This is ${MY_NAME}`);
 });
 
+// GET - "/" - home page
+router.get('/', (req, res) => {
+    res.render("index");
+});
+
 module.exports = router; 

@@ -6,6 +6,9 @@ var express = require('express'),
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
+
 // ================================================
 // requring routes
 // ================================================
