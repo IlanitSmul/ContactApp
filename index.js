@@ -1,6 +1,10 @@
 var express = require('express'),
     app = express(),
+    bodyParser = require("body-parser"),
     contactRoutes = require("./routes/contacts");
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // ================================================
 // requring routes
