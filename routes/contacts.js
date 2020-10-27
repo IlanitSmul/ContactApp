@@ -29,14 +29,19 @@ router.route('/')
     .post((req, res) => {
         let newContact = req.body;
 
+        if (!newContact.hasOwnProperty('name') || newContact.name.trim().length === 0) {
+            return res.status(400).json(`Error: 'name' parameter is required`)
+        }
+
         let oldContactIndex = contactsDB.findIndex(c => c.name == newContact.name);
 
-        // if a contact with the same name exist - override it, else - create new contact
-        (oldContactIndex == -1)
-            ? contactsDB.push(newContact) // create new contact
-            : contactsDB[oldContactIndex] = newContact; // override the old contact
-
-        return res.json(newContact);
+        // if a contact with the same name exist - return error message, else - create new contact
+        if (oldContactIndex == -1) {
+            contactsDB.push(newContact);
+            return res.json(newContact);
+        } else {
+            return res.status(400).json(`Error: contact with the name '${newContact.name}' already exist`)
+        }
     })
 
 // ================================================
@@ -53,7 +58,7 @@ router.route('/:contactName')
 
         // if the contact isn't exist - return error message, else - return the found contact
         return (foundContact == undefined)
-            ? res.json(`Error: contact with the name ${contactName} not found`)
+            ? res.status(400).json(`Error: contact with the name '${contactName}' not found`)
             : res.json(foundContact);
     })
 
@@ -66,7 +71,7 @@ router.route('/:contactName')
 
         // if the contact isn't exist - return error message, else - update the found contact
         if (oldContactIndex == -1) {
-            return res.json(`Error: contact with the name ${contactName} not found`)
+            return res.status(400).json(`Error: contact with the name '${contactName}' not found`)
         } else {
             contactsDB[oldContactIndex] = { ...contactsDB[oldContactIndex], ...updateContact };
             return res.json(contactsDB[oldContactIndex])
@@ -81,7 +86,7 @@ router.route('/:contactName')
 
         // if the contact isn't exist - return error message, else - delete the found contact
         if (oldContactIndex == -1) {
-            return res.json(`Error: contact with the name ${contactName} not found`)
+            return res.status(400).json(`Error: contact with the name '${contactName}' not found`)
         } else {
             contactsDB.splice(oldContactIndex, 1);
             return res.json(`delete contact with the name ${contactName}`)
