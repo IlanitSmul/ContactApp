@@ -1,59 +1,125 @@
-// ================================================
-// event listeners
-// ================================================
-
 $(document).ready(function () {
-
-    // load all contacts:
-    $.getJSON("/contacts")
-        .then(addContacts)
-
-    $('#list-section').on('click', '.delete-contact-btn', function (e) {
-        e.stopPropagation();
-        deleteContact($(this).parent().parent()); // pass the "card" element (with the "data" properties)
-    })
-
+    showAllContacts(); // load all contacts
+    clearErrorMessage();
 });
 
 
-// click event on form submit button
+// ================================================
+// new contact form
+// ================================================
+
+// click event on "add-contact-form-submit": create a new contact
 $('#add-contact-form-submit').click(function (event) {
     event.preventDefault();
+    clearErrorMessage();
+
     let data = $('#add-contact-form').serialize();
+
     $.post('/contacts', data)
         .then(function (newContact) {
             $('#add-contact-form').trigger("reset");
-            $("#error-message").text('');
+            $("#form-error-message").text('');
             addContact(newContact);
         })
         .catch(function (err) {
-            $("#error-message").text(err.responseJSON);
+            $("#form-error-message").text(err.responseJSON);
         })
 });
 
+
 // ================================================
-// helpers
+// search form
 // ================================================
 
-function deleteContact(contact) {
+// click event on "search-btn": show info about specific contact
+$('#search-btn').click(function (event) {
+    event.preventDefault();
+    clearErrorMessage();
+
+    var name = $('#searchInput').val();
+
+    if (name.trim().length === 0) {
+        $("#search-error-message").text(`Error: 'name' parameter is required`);
+        return;
+    }
+
+    $.get(`/contacts/${name}`)
+        .then(function (foundContact) {
+            $('#search-form').trigger("reset");
+            showContact(foundContact);
+        })
+        .catch(function (err) {
+            hideAllContacts();
+            $("#search-error-message").text(err.responseJSON);
+        })
+});
+
+// click event on "show-all-btn": show all contacts
+$('#show-all-btn').click(function (event) {
+    event.preventDefault();
+    clearErrorMessage();
+    $('#search-form').trigger("reset");
+
+    showAllContacts();
+});
+
+
+// ================================================
+// contacts list
+// ================================================
+
+// click event on "delete-contact-btn": delete contact
+$('#list-section').on('click', '.delete-contact-btn', function (e) {
+    e.stopPropagation();
+    clearErrorMessage();
+
+    let contact = $(this).parent().parent(); // "card" element (with the "data" properties)
+
     $.ajax({
         method: 'DELETE',
         url: '/contacts/' + contact.data('name')
     }).then(function (data) {
         contact.remove();
     }).catch(function (err) {
-        console.log(err);
+        // console.log(err);
     })
+})
+
+
+// ================================================
+// DOM helpers
+// ================================================
+
+// clear all error messages from the DOM
+function clearErrorMessage() {
+    $("#form-error-message").text('');
+    $("#search-error-message").text('');
 }
 
-// add list of Contact objects to DOM
-function addContacts(contacts) {
-    contacts.forEach(function (contact) {
-        addContact(contact);
-    });
+// hide all contacts from DOM
+function hideAllContacts() {
+    $('#list-section').empty();
 }
 
-// add new Contact object to DOM
+// show all contacts in the DOM
+function showAllContacts() {
+    hideAllContacts();
+
+    $.getJSON("/contacts")
+        .then(function (contacts) {
+            contacts.forEach(function (contact) {
+                addContact(contact);
+            });
+        })
+}
+
+// show only specific contact in the DOM
+function showContact(contact) {
+    hideAllContacts();
+    addContact(contact);
+}
+
+// add new contact object to the DOM
 function addContact(contact) {
     var newContact = $(`
     <div class="card">
@@ -68,4 +134,4 @@ function addContact(contact) {
     `);
     newContact.data('name', contact.name);
     $('#list-section').append(newContact);
-} 
+}

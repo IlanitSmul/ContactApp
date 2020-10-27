@@ -48,13 +48,29 @@
                         <label for="address" class="col-form-label col-3">Address</label>
                         <input type="text" class="form-control col-9" id="address" name="address">
                     </div>
-                    <button type="submit" class="btn btn-primary" id="add-contact-form-submit">Add Contact!</button>
-                    <p id="error-message"></p>
+                    <button type="submit" class="btn btn-primary" id="add-contact-form-submit">Add New Contact</button>
+                    <p id="form-error-message"></p>
                 </form>
 
             </div>
 
-            <div id="list-section" class="col-8">
+            <div id="contacts-section" class="col-8">
+
+                <div id="search-section">
+                    <h3>Search Contact By Name</h3>
+                    <form id="search-form">
+                        <div class="form-group row">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Name" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="search-btn">Search Contact</button>
+                    </form>
+                    <button class="btn btn-primary" id="show-all-btn">Show All Contacts</button>
+                    <p id="search-error-message"></p>
+
+                </div>
+
+                <div id="list-section">
+                </div>
 
             </div>
 
