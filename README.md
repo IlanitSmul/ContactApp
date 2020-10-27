@@ -8,4 +8,4 @@
 * **Testing**: Mocha, Chai.
 
 #### Screenshot:
-![contactApp](https://user-images.githubusercontent.com/37686204/97301190-21ec6680-1860-11eb-8907-c12c2662c79b.PNG)
+![image](https://user-images.githubusercontent.com/37686204/97301640-ac34ca80-1860-11eb-8a47-9e9cd66a17c5.png)
