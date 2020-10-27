@@ -6,8 +6,23 @@ var router = express.Router();
 // database 
 // ================================================
 
-let contactsDB = [];
-
+let contactsDB =
+    [
+        {
+            'name': 'name-0',
+            'phone': '000-00000000',
+            'email': 'contact_0@gmail.com',
+        },
+        {
+            'name': 'name-1',
+            'email': 'contact_1@gmail.com',
+            'address': 'Israel',
+        },
+        {
+            'name': 'name-2',
+            'address': 'Israel',
+        },
+    ];
 // ================================================
 // "/contacts" ROUTES
 // ================================================

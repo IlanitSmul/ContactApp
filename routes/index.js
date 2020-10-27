@@ -8,7 +8,7 @@ var router = express.Router();
 // GET - "/whos-there" - send my name
 router.get("/whos-there", (req, res) => {
     const MY_NAME = "Ilanit Smul";
-    res.send(`Hi Trax! This is ${MY_NAME}`);
+    res.json(`Hi Trax! This is ${MY_NAME}`);
 });
 
 // GET - "/" - home page

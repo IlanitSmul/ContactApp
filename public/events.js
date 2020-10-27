@@ -130,15 +130,11 @@ function showContact(contact) {
 
 // add new contact object to the DOM
 function addContact(contact) {
-    console.log(contact);
     ['phone', 'email', 'address'].forEach(key => {
-        if (contact[key].trim().length === 0) {
+        if (!contact.hasOwnProperty(key) || contact[key].trim().length === 0) {
             contact[key] = '[not specified]';
         }
     });
-
-    console.log(contact);
-
     var newContact = $(`
     <div class="col py-2 px-2 m-0">
         <div class="card h-100 mx-0">
