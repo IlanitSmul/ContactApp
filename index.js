@@ -1,6 +1,6 @@
 var express = require('express'),
     app = express(),
-    port = 3000;
+    contactRoutes = require("./routes/contacts");
 
 // ================================================
 // requring routes
@@ -9,9 +9,11 @@ var express = require('express'),
 var indexRoutes = require("./routes/index");
 
 app.use("/", indexRoutes);
+app.use('/contacts', contactRoutes);
 
 // ================================================
 // listen to port
 // ================================================
 
+var port = 3000;
 app.listen(port, () => console.log(`APP IS RUNNING ON PORT ${port}!`))
