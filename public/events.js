@@ -8,6 +8,11 @@ $(document).ready(function () {
     $.getJSON("/contacts")
         .then(addContacts)
 
+    $('#list-section').on('click', '.delete-contact-btn', function (e) {
+        e.stopPropagation();
+        deleteContact($(this).parent().parent()); // pass the "card" element (with the "data" properties)
+    })
+
 });
 
 
@@ -30,6 +35,17 @@ $('#add-contact-form-submit').click(function (event) {
 // helpers
 // ================================================
 
+function deleteContact(contact) {
+    $.ajax({
+        method: 'DELETE',
+        url: '/contacts/' + contact.data('name')
+    }).then(function (data) {
+        contact.remove();
+    }).catch(function (err) {
+        console.log(err);
+    })
+}
+
 // add list of Contact objects to DOM
 function addContacts(contacts) {
     contacts.forEach(function (contact) {
@@ -46,6 +62,7 @@ function addContact(contact) {
             <p class="card-text">${contact.phone}</p>
             <p class="card-text">${contact.email}</p>
             <p class="card-text">${contact.address}</p>
+            <button class="delete-contact-btn btn btn-primary">Delete</button>
         </div>
     </div>
     `);
