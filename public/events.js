@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    showAllContacts(); // load all contacts
+    showAllContacts();
     clearErrorMessage();
 });
 
@@ -18,11 +18,11 @@ $('#add-contact-form-submit').click(function (event) {
     $.post('/contacts', data)
         .then(function (newContact) {
             $('#add-contact-form').trigger("reset");
-            $("#form-error-message").text('');
-            addContact(newContact);
+            clearErrorMessage();
+            showAllContacts();
         })
         .catch(function (err) {
-            $("#form-error-message").text(err.responseJSON);
+            showError("#form-error-message", err.responseJSON);
         })
 });
 
@@ -39,7 +39,7 @@ $('#search-btn').click(function (event) {
     var name = $('#searchInput').val();
 
     if (name.trim().length === 0) {
-        $("#search-error-message").text(`Error: 'name' parameter is required`);
+        showError("#search-error-message", `Error: 'name' parameter is required`);
         return;
     }
 
@@ -50,7 +50,7 @@ $('#search-btn').click(function (event) {
         })
         .catch(function (err) {
             hideAllContacts();
-            $("#search-error-message").text(err.responseJSON);
+            showError("#search-error-message", err.responseJSON);
         })
 });
 
@@ -69,11 +69,11 @@ $('#show-all-btn').click(function (event) {
 // ================================================
 
 // click event on "delete-contact-btn": delete contact
-$('#list-section').on('click', '.delete-contact-btn', function (e) {
+$('#list').on('click', '#delete-contact-btn', function (e) {
     e.stopPropagation();
     clearErrorMessage();
 
-    let contact = $(this).parent().parent(); // "card" element (with the "data" properties)
+    let contact = $(this).parent().parent().parent(); // "card" element (with the "data" properties)
 
     $.ajax({
         method: 'DELETE',
@@ -90,15 +90,24 @@ $('#list-section').on('click', '.delete-contact-btn', function (e) {
 // DOM helpers
 // ================================================
 
+// show error selector with text equal to errMessage
+function showError(selector, errMessage) {
+    $(selector).text(errMessage);
+    $(selector).show();
+}
+
+
 // clear all error messages from the DOM
 function clearErrorMessage() {
-    $("#form-error-message").text('');
-    $("#search-error-message").text('');
+    ["#form-error-message", "#search-error-message"].forEach(selector => {
+        $(selector).text('');
+        $(selector).hide();
+    });
 }
 
 // hide all contacts from DOM
 function hideAllContacts() {
-    $('#list-section').empty();
+    $('#list').empty();
 }
 
 // show all contacts in the DOM
@@ -121,17 +130,28 @@ function showContact(contact) {
 
 // add new contact object to the DOM
 function addContact(contact) {
+    console.log(contact);
+    ['phone', 'email', 'address'].forEach(key => {
+        if (contact[key].trim().length === 0) {
+            contact[key] = '[not specified]';
+        }
+    });
+
+    console.log(contact);
+
     var newContact = $(`
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">${contact.name}</h5>
-            <p class="card-text">${contact.phone}</p>
-            <p class="card-text">${contact.email}</p>
-            <p class="card-text">${contact.address}</p>
-            <button class="delete-contact-btn btn btn-primary">Delete</button>
+    <div class="col py-2 px-2 m-0">
+        <div class="card h-100 mx-0">
+            <div class="card-body">
+                <h5 class="card-title pb-1">${contact.name}</h5>
+                <p class="card-text"><i class="fas fa-phone-alt pr-1"></i> ${contact.phone}</p>
+                <p class="card-text"><i class="fas fa-at pr-1"></i> ${contact.email}</p>
+                <p class="card-text"><i class="fas fa-map-marker-alt pr-1"></i> ${contact.address}</p>
+                <button class="btn btn-primary" id="delete-contact-btn">Delete</button>
+            </div>
         </div>
     </div>
     `);
     newContact.data('name', contact.name);
-    $('#list-section').append(newContact);
+    $('#list').append(newContact);
 }

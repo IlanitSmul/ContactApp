@@ -1,11 +1,122 @@
-#list-section {
-	background-color: aqua;
+/* ----------------------------------------------------- */
+/* general                                               */
+/* ----------------------------------------------------- */
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	background: #eaeff3;
 }
 
-#form-section {
-	background-color: darksalmon;
-} 
+h2 {
+	font-family: 'Noto Sans JP', sans-serif;
+}
 
-#search-section{
-    background-color: greenyellow;
+#form-section, #search-section, #list-section {
+	background: #d9e6ef;
+}
+
+button {
+    border-color: unset;
+}
+
+.error-message {
+	background-color: #f2d253;
+}
+
+i {
+	color: #3681dd;
+}
+
+/* ----------------------------------------------------- */
+/* header                                               */
+/* ----------------------------------------------------- */
+
+.header h1 {
+	font-family: 'Noto Sans JP', sans-serif;
+	text-align: center;
+	color: #0c5284;;
+    font-size: 4rem;
+}
+
+.header h1 span {
+	font-weight: bolder;
+}
+
+/* ----------------------------------------------------- */
+/* form-section                                          */
+/* ----------------------------------------------------- */
+
+#add-contact-form input {
+	background-color: #95cdf6;
+}
+
+#add-contact-form {
+    text-align: center;
+}
+#add-contact-form .form-group {
+	text-align: left;
+}
+
+#add-contact-form-submit {
+	color: white;
+	background-color: #307cdd;
+	border: unset;
+}
+
+#form-section i {
+	color: #0c5284;
+}
+
+/* ----------------------------------------------------- */
+/* search-section                                        */
+/* ----------------------------------------------------- */
+
+#search-section {
+	background: #1074bc;
+}
+
+#search-section h2 {
+	color: white;
+}
+
+#search-section input {
+	background-color: #0c5284;
+	color: white;
+	border: unset;
+}
+#search-section input::placeholder{
+	color: white;
+	opacity: 1;
+}
+
+#search-btn, #show-all-btn {
+	color: white;
+	background-color: #44a2e7;
+	border: unset;
+}
+
+#show-all-btn {
+    float: right;
+}
+ 
+/* ----------------------------------------------------- */
+/* list-section                                        */
+/* ----------------------------------------------------- */
+
+.card-title {
+    font-weight: bold;
+}
+
+#delete-contact-btn {
+	color: white;
+	background-color: #44a2e7;
+	border: unset;
+}
+
+.card-body .card-title, .card-body .card-text {
+	text-align: left;
+}
+
+.card-body {
+	text-align: center;
 }
